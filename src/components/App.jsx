@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Statistics from './Statistics';
 
 class App extends Component {
   state = {
@@ -9,12 +10,6 @@ class App extends Component {
 
   handleIncrement = e => {
     const currentBtn = e.target.textContent;
-
-    // if (currentBtn === 'Good') {
-    // return this.setState(prevState => ({
-    //   good: prevState.good + 1,
-    // }));
-    // }
 
     switch (currentBtn) {
       case 'Good':
@@ -32,7 +27,6 @@ class App extends Component {
       default:
         alert('Нет таких значений');
     }
-    console.log(e.target.textContent);
   };
 
   render() {
@@ -55,36 +49,17 @@ class App extends Component {
               Bad
             </button>
           </div>
-          <h2>Statistics</h2>
-          <span>Good: {good}</span>
-          <span>Neutral: {neutral}</span>
-          <span>Bad: {bad}</span>
-          <span>Total: {total}</span>
-          <span> Positive feedback: {positiveFeedback}</span>
-          {/* <span>Good:{this.state.good}</span>
-          <span>Neutral:{this.state.neutral}</span>
-          <span>Bad:{this.state.bad}</span> */}
+          <Statistics
+            good={good}
+            neutral={neutral}
+            bad={bad}
+            total={total}
+            positivePercentage={positiveFeedback}
+          ></Statistics>
         </div>
       </>
     );
   }
 }
 
-//85/500 * 100 = 17%
 export default App;
-// export const App = () => {
-//   return (
-//     <div
-//       style={{
-//         height: '100vh',
-//         display: 'flex',
-//         justifyContent: 'center',
-//         alignItems: 'center',
-//         fontSize: 40,
-//         color: '#010101',
-//       }}
-//     >
-//       React homework template is done
-//     </div>
-//   );
-// };
