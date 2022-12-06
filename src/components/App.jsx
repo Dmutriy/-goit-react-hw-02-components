@@ -1,65 +1,59 @@
-import React, { Component } from 'react';
-import Statistics from './Statistics';
+import { Component } from 'react';
+import { Section } from './Section/Section';
+import { Statistics } from './Statistics/Statistics';
+import { FeedbackOptions } from './FeedbackOptions/FeedbackOptions';
+import { Notification } from './Notification/Notification';
+import { Wrap } from './App.styled';
 
-class App extends Component {
+export class App extends Component {
   state = {
     good: 0,
     neutral: 0,
     bad: 0,
   };
 
-  handleIncrement = e => {
-    const currentBtn = e.target.textContent;
+  onLeaveFeedback = e => {
+    const { name } = e.target;
+    this.setState(prevState => {
+      return { [name]: prevState[name] + 1 };
+    });
+  };
 
-    switch (currentBtn) {
-      case 'Good':
-        return this.setState(prevState => ({
-          good: prevState.good + 1,
-        }));
-      case 'Neutral':
-        return this.setState(prevState => ({
-          neutral: prevState.neutral + 1,
-        }));
-      case 'Bad':
-        return this.setState(prevState => ({
-          bad: prevState.bad + 1,
-        }));
-      default:
-        alert('Нет таких значений');
-    }
+  countTotalFeedback = () => {
+    const { good, neutral, bad } = this.state;
+    return good + neutral + bad;
+  };
+
+  countPositiveFeedbackPercentage = () => {
+    const { good } = this.state;
+    return Math.round((good * 100) / this.countTotalFeedback());
   };
 
   render() {
-    const { good, neutral, bad } = this.state;
-    const total = good + neutral + bad;
-    const positiveFeedback = Math.round((good / total) * 100);
-
+    const optionsKey = Object.keys(this.state);
+    const totalFeedback = this.countTotalFeedback();
     return (
-      <>
-        <div>
-          <h1>Please leave feedback</h1>
-          <div className="">
-            <button type="button" onClick={this.handleIncrement}>
-              Good
-            </button>
-            <button type="button" onClick={this.handleIncrement}>
-              Neutral
-            </button>
-            <button type="button" onClick={this.handleIncrement}>
-              Bad
-            </button>
-          </div>
-          <Statistics
-            good={good}
-            neutral={neutral}
-            bad={bad}
-            total={total}
-            positivePercentage={positiveFeedback}
-          ></Statistics>
-        </div>
-      </>
+      <Wrap>
+        <Section title={`Please leave feedback`}>
+          <FeedbackOptions
+            options={optionsKey}
+            onLeaveFeedback={this.onLeaveFeedback}
+          />
+        </Section>
+        <Section title={`Statistics`}>
+          {totalFeedback > 0 ? (
+            <Statistics
+              good={this.state.good}
+              neutral={this.state.neutral}
+              bad={this.state.bad}
+              total={totalFeedback}
+              positivePercentage={this.countPositiveFeedbackPercentage()}
+            />
+          ) : (
+            <Notification message={`There is no feedback`} />
+          )}
+        </Section>
+      </Wrap>
     );
   }
 }
-
-export default App;
