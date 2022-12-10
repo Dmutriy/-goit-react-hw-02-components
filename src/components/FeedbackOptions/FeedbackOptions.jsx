@@ -2,7 +2,7 @@ import Button from '@mui/material/Button';
 
 import PropTypes from 'prop-types';
 
-export const FeedbackOptions = ({ options, onLeaveFeedback }) => {
+const FeedbackOptions = ({ options, onLeaveFeedback }) => {
   return (
     <div>
       {options.map(option => {
@@ -30,3 +30,4 @@ FeedbackOptions.propTypes = {
   options: PropTypes.array,
   onLeaveFeedback: PropTypes.func,
 };
+export default FeedbackOptions;

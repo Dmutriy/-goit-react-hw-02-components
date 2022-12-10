@@ -1,7 +1,7 @@
 import { Title } from './Section.styled';
 import PropTypes from 'prop-types';
 
-export const Section = ({ title, children }) => {
+const Section = ({ title, children }) => {
   return (
     <section>
       <Title>{title}</Title>
@@ -13,3 +13,4 @@ export const Section = ({ title, children }) => {
 Section.propTypes = {
   title: PropTypes.string,
 };
+export default Section;
